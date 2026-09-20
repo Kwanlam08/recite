@@ -27,7 +27,7 @@
      * @returns {string} 渲染后的 HTML 字符串
      */
     renderLine: function(lineObj, level, trickyMap, showAnswer, randomSeed) {
-      var orig = lineObj.orig;
+      var orig = typeof lineObj === 'string' ? lineObj : (lineObj ? lineObj.orig : '');
       if (!orig) return '';
 
       // Level 0 或用户点击“显示答案”时：展示完整原文

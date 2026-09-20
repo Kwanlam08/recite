@@ -1,6 +1,6 @@
 /* ==========================================================================
-   ladder.css: 阶梯式背诵核心视觉样式（无输入、挖空显隐、Emoji记忆锚点）
-   严格兼容 iOS 9.3.5 / iPod touch 5 (320px)
+   ladder.css: 阶梯式背诵核心视觉样式（古典墨韵排版、挖空槽位、Emoji记忆锚点）
+   兼容 iOS 9.3.5 / iPod touch 5 (320px)
    ========================================================================== */
 
 /* 阶梯等级导航条 */
@@ -8,11 +8,13 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  background-color: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  background-color: #fdfcfa;
+  border: 1px solid #dcd6c8;
+  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  -webkit-box-shadow: 0 1px 2px rgba(40, 30, 20, 0.04);
+  box-shadow: 0 1px 2px rgba(40, 30, 20, 0.04);
 }
 
 .level-btn {
@@ -20,15 +22,15 @@
   -webkit-flex: 1;
   flex: 1;
   text-align: center;
-  padding: 8px 2px;
+  padding: 8px 1px;
   font-size: 0.78rem;
   font-weight: 600;
   color: #64748b;
   background: transparent;
   border: none;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid #e8e4db;
   cursor: pointer;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .level-btn:last-child {
@@ -44,7 +46,8 @@
   display: block;
   font-size: 0.65rem;
   font-weight: normal;
-  opacity: 0.85;
+  opacity: 0.9;
+  margin-top: 1px;
 }
 
 /* 控制工具条（显示译文、偷看答案、循环等） */
@@ -62,39 +65,40 @@
 }
 
 .recite-control-bar .ctrl-btn {
-  background-color: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  padding: 6px 10px;
+  background-color: #fdfcfa;
+  border: 1px solid #d8d2c4;
+  border-radius: 6px;
+  padding: 6px 12px;
   font-size: 0.82rem;
-  color: #334155;
+  color: #475569;
   cursor: pointer;
 }
 
 .recite-control-bar .ctrl-btn.active {
-  background-color: #eff6ff;
-  border-color: #3b82f6;
-  color: #1d4ed8;
+  background-color: #f0fdf4;
+  border-color: #86efac;
+  color: #166534;
   font-weight: 600;
 }
 
-/* 段落切换下拉或标签 */
+/* 段落切换横向滚动列表 */
 .paragraph-tabs-wrap {
   margin-bottom: 12px;
   overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
 }
 
 .para-tab {
   display: inline-block;
   padding: 5px 12px;
   margin-right: 6px;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: #fdfcfa;
+  border: 1px solid #e2ddd2;
   border-radius: 16px;
-  font-size: 0.82rem;
-  color: #64748b;
+  font-size: 0.8rem;
+  color: #55606a;
   cursor: pointer;
 }
 
@@ -105,21 +109,21 @@
   font-weight: 600;
 }
 
-/* 背诵主体卡片 */
+/* 背诵主体卡片（宣纸卷轴感） */
 .recite-content-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: #fdfcfa;
+  border: 1px solid #e4dfd3;
   border-radius: 8px;
   padding: 16px 14px;
   margin-bottom: 16px;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  -webkit-box-shadow: 0 1px 3px rgba(40, 30, 20, 0.04);
+  box-shadow: 0 1px 3px rgba(40, 30, 20, 0.04);
 }
 
 .recite-para-block {
-  margin-bottom: 18px;
-  padding-bottom: 14px;
-  border-bottom: 1px dashed #e2e8f0;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #e8e4db;
 }
 
 .recite-para-block:last-child {
@@ -130,51 +134,56 @@
 
 .recite-para-title {
   font-size: 0.82rem;
-  font-weight: 600;
-  color: #94a3b8;
-  margin-bottom: 8px;
+  font-weight: 700;
+  color: #8c8270;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
 }
 
 /* 句子条目容器 */
 .recite-line-item {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   position: relative;
 }
 
-/* 文言文原文排版 */
+/* 文言文原文排版（宋体深墨色，舒朗行距） */
 .line-orig-text {
-  font-size: 1.18rem;
-  line-height: 1.9;
-  color: #1e293b;
-  letter-spacing: 0.5px;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-size: 1.25rem;
+  line-height: 2.1;
+  color: #111827;
+  letter-spacing: 0.8px;
   word-break: break-all;
 }
 
-/* 挖空槽位样式 */
+/* 挖空槽位样式（温润竹纸底槽） */
 .blank-slot {
   display: inline-block;
-  background-color: #f1f5f9;
-  border-bottom: 2px solid #94a3b8;
-  border-radius: 3px;
-  padding: 0 4px;
+  background-color: #f2ede2;
+  border-bottom: 2px solid #b8b09f;
+  border-radius: 4px;
+  padding: 0 5px;
   margin: 0 2px;
   cursor: pointer;
-  color: #64748b;
+  color: #78716c;
   font-weight: 600;
-  min-width: 24px;
+  min-width: 26px;
   text-align: center;
+  -webkit-transition: background-color 0.15s;
+  transition: background-color 0.15s;
 }
 
 .blank-slot .blank-mask {
-  color: #94a3b8;
-  letter-spacing: 1px;
+  color: #a8a29e;
+  letter-spacing: 2px;
 }
 
-/* 点击偷看后揭晓状态 */
+/* 点击偷看后揭晓状态（墨色渗出暖金） */
 .blank-slot.revealed {
   background-color: #fef3c7;
-  color: #b45309;
+  color: #92400e;
   border-bottom-color: #f59e0b;
+  font-family: "Songti SC", "STSong", serif;
 }
 
 .char-peek {
@@ -182,73 +191,81 @@
   color: #854d0e;
 }
 
-/* 白话译文行 */
+/* 白话译文行（淡雅宋风旁注） */
 .line-trans-text {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 0.88rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: #64748b;
-  margin-top: 4px;
+  margin-top: 5px;
   padding-left: 2px;
 }
 
-/* Emoji 记忆锚点行 */
+/* Emoji 记忆锚点行（意象提示流） */
 .line-emoji-bar {
-  margin-top: 6px;
-  padding: 6px 10px;
-  background-color: #f8fafc;
+  margin-top: 7px;
+  padding: 6px 12px;
+  background-color: #f3f6f8;
   border-left: 3px solid #6366f1;
   border-radius: 4px;
   font-size: 1.15rem;
   line-height: 1.4;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 
 .line-emoji-label {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: #6366f1;
-  font-weight: 600;
+  font-weight: 700;
   margin-right: 6px;
   display: block;
   margin-bottom: 2px;
+  letter-spacing: 0.5px;
 }
 
 /* 标记易忘词按钮 */
 .line-star-btn {
-  font-size: 0.75rem;
-  color: #94a3b8;
+  font-size: 0.74rem;
+  color: #a8a29e;
   background: transparent;
-  border: none;
+  border: 1px solid #e7e3d8;
+  border-radius: 12px;
+  padding: 1px 6px;
   cursor: pointer;
   margin-left: 6px;
+  vertical-align: middle;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
 }
 
 .line-star-btn.active {
-  color: #f59e0b;
+  color: #b45309;
+  background-color: #fef3c7;
+  border-color: #fde68a;
   font-weight: 600;
 }
 
 /* 底部阶梯推进工具栏 */
 .recite-bottom-bar {
-  margin-top: 14px;
-  margin-bottom: 20px;
+  margin-top: 16px;
+  margin-bottom: 24px;
 }
 
 .recite-bottom-bar button {
   margin-bottom: 8px;
 }
 
-/* 极窄屏幕 (320px) 微调 */
+/* 320px 极限小屏适配 (iPod touch 5) */
 @media screen and (max-width: 340px) {
   .level-btn {
     font-size: 0.72rem;
-    padding: 6px 1px;
+    padding: 6px 0px;
   }
   .line-orig-text {
-    font-size: 1.05rem;
-    line-height: 1.8;
+    font-size: 1.1rem;
+    line-height: 1.95;
   }
   .line-emoji-bar {
     font-size: 1rem;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
   }
 }

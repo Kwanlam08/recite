@@ -1,6 +1,6 @@
 /* ==========================================================================
-   main.css: 基础样式重置与排版规范
-   支持 iOS 9.3.5 / 老旧 WebKit 引擎
+   main.css: 全局雅致视觉规范与基础排版（宣纸墨韵）
+   深度兼容 iOS 9.3.5 / iPod touch 5 (320px)
    ========================================================================== */
 
 * {
@@ -16,16 +16,18 @@ html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  background-color: #f6f7f9;
-  color: #2c3e50;
+  background-color: #f7f5ef; /* 温暖古雅宣纸色 */
+  color: #1e252b;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Songti SC", "Source Han Serif SC", "STSong", "SimSun", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+  line-height: 1.6;
   min-height: 100vh;
-  padding-bottom: 72px; /* 底部常驻导航栏间隙 */
-  background-color: #f6f7f9;
+  padding-bottom: 74px; /* 底部常驻导航栏间隙 */
+  background-color: #f7f5ef;
+  color: #1e252b;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* 链接无下划线 */
@@ -36,8 +38,8 @@ a {
 
 /* 输入框与按钮重置 */
 input, textarea, button, select {
-  font-family: inherit;
-  font-size: 16px; /* 必须 >= 16px，防止 iOS 9 Safari 聚焦强制缩放视口 */
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 16px; /* 阻止 iOS Safari 聚焦强制缩放 */
   outline: none;
   -webkit-appearance: none;
 }
@@ -46,15 +48,16 @@ input, textarea, button, select {
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
-.text-success { color: #16a34a; }
-.text-warning { color: #d97706; }
-.text-danger { color: #dc2626; }
-.text-muted { color: #6b7280; }
+.text-success { color: #15803d; }
+.text-warning { color: #b45309; }
+.text-danger { color: #991c1c; }
+.text-muted { color: #64748b; }
+.text-serif { font-family: "Songti SC", "SimSun", "STSong", serif; }
 
 /* 容器与页面视图 */
 .app-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
   margin: 0 auto;
   padding: 12px 14px;
 }
@@ -63,15 +66,17 @@ input, textarea, button, select {
   display: none;
 }
 
-/* 标题样式 */
+/* 标题样式（优雅宋风） */
 h1, h2, h3, h4 {
-  color: #1a202c;
-  font-weight: 600;
+  color: #111827;
+  font-weight: 700;
   margin-bottom: 8px;
+  font-family: "Songti SC", "Source Han Serif SC", "STSong", "SimSun", serif;
 }
 
 h2 {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
 }
 
 h3 {

@@ -7,18 +7,24 @@
 
   var App = {
     currentView: 'home',
-    activeTextId: 'quanxue',
+    activeTextId: 't01_duangexing',
     activeLevel: 0,
     activeParaIdx: 0, // 0: 全篇, 1+: 第N段 (1-indexed)
     showTranslation: true,
     showAnswer: false,
     randomSeed: 1,
+    selectedBookFilter: 'all',
+    searchKeyword: '',
 
     init: function() {
       var self = this;
 
       if (window.SafeStorage) window.SafeStorage.init();
       if (window.Pomodoro) window.Pomodoro.init();
+
+      if (window.RECITATION_TEXTS && window.RECITATION_TEXTS.length > 0) {
+        this.activeTextId = window.RECITATION_TEXTS[0].id;
+      }
 
       // 恢复全局用户设置
       var userSettings = window.SafeStorage ? window.SafeStorage.getItem('user_settings') : null;
@@ -28,6 +34,7 @@
 
       this.bindNavEvents();
       this.bindGlobalEvents();
+      this.bindTextsFilterEvents();
       this.showView('home');
     },
 
@@ -232,6 +239,34 @@
       }
     },
 
+    bindTextsFilterEvents: function() {
+      var self = this;
+      var searchInput = document.getElementById('texts-search-input');
+      if (searchInput) {
+        searchInput.oninput = function() {
+          self.searchKeyword = (searchInput.value || '').replace(/^\s+|\s+$/g, '');
+          self.renderTexts();
+        };
+      }
+
+      var chipContainer = document.getElementById('texts-filter-chips');
+      if (chipContainer) {
+        var chips = chipContainer.querySelectorAll('.filter-chip');
+        for (var i = 0; i < chips.length; i++) {
+          (function(chip) {
+            chip.onclick = function() {
+              for (var j = 0; j < chips.length; j++) {
+                chips[j].className = 'filter-chip';
+              }
+              chip.className = 'filter-chip active';
+              self.selectedBookFilter = chip.getAttribute('data-book') || 'all';
+              self.renderTexts();
+            };
+          })(chips[i]);
+        }
+      }
+    },
+
     /* ====================================================================
        2. 篇目库 (Texts)
        ==================================================================== */
@@ -240,10 +275,52 @@
       if (!container) return;
 
       var allTexts = window.RECITATION_TEXTS || [];
-      var html = '';
+      var filtered = [];
+      var kw = (this.searchKeyword || '').toLowerCase();
+      var book = this.selectedBookFilter || 'all';
 
       for (var i = 0; i < allTexts.length; i++) {
-        var t = allTexts[i];
+        var item = allTexts[i];
+        if (book !== 'all' && item.book !== book) {
+          continue;
+        }
+        if (kw) {
+          var match = false;
+          if (item.title.toLowerCase().indexOf(kw) !== -1) match = true;
+          else if (item.author.toLowerCase().indexOf(kw) !== -1) match = true;
+          else if (item.dynasty.toLowerCase().indexOf(kw) !== -1) match = true;
+          else if (item.book.toLowerCase().indexOf(kw) !== -1) match = true;
+          else if (item.category.toLowerCase().indexOf(kw) !== -1) match = true;
+          else {
+            for (var pi = 0; pi < item.paragraphs.length; pi++) {
+              for (var li = 0; li < item.paragraphs[pi].lines.length; li++) {
+                if (item.paragraphs[pi].lines[li].orig.toLowerCase().indexOf(kw) !== -1) {
+                  match = true;
+                  break;
+                }
+              }
+              if (match) break;
+            }
+          }
+          if (!match) continue;
+        }
+        filtered.push(item);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML =
+          '<div class="card" style="text-align: center; padding: 32px 14px; color: #8c8273;">' +
+            '<div style="font-size: 2rem; margin-bottom: 8px;">📜</div>' +
+            '<div style="font-weight: 600; color: #5c5346;">未找到匹配篇目</div>' +
+            '<div style="font-size: 0.82rem; margin-top: 4px; color: #a39b8e;">可尝试更换搜索词或切换上方册别分类</div>' +
+          '</div>';
+        return;
+      }
+
+      var html = '';
+
+      for (var k = 0; k < filtered.length; k++) {
+        var t = filtered[k];
         var p = window.SafeStorage.getTextProgress(t.id);
         var levelNames = ['L0 原文', 'L1 少量', 'L2 中度', 'L3 大量', 'L4 骨架', 'L5 Emoji'];
         var lName = levelNames[p.level || 0] || 'L0';
@@ -251,13 +328,26 @@
         var badgeClass = p.status === 'mastered' ? 'badge-success' : (p.status === 'learning' ? 'badge-warning' : '');
         var badgeText = p.status === 'mastered' ? '已掌握' : (p.status === 'learning' ? '进行中 (' + lName + ')' : '未开始');
 
+        var preview = '';
+        if (t.paragraphs && t.paragraphs[0] && t.paragraphs[0].lines && t.paragraphs[0].lines[0]) {
+          preview = t.paragraphs[0].lines[0].orig;
+          if (preview.length > 24) {
+            preview = preview.substring(0, 24) + '...';
+          }
+        }
+
         html +=
           '<div class="card text-card">' +
             '<div class="text-card-header">' +
-              '<div class="text-card-title">《' + t.title + '》</div>' +
+              '<div class="text-card-title">' + t.num + '. 《' + t.title + '》</div>' +
               '<span class="badge ' + badgeClass + '">' + badgeText + '</span>' +
             '</div>' +
-            '<div class="text-card-meta" style="margin-bottom: 8px;">' + t.author + ' · ' + t.dynasty + ' (' + t.category + ')</div>' +
+            '<div class="text-card-meta" style="margin-bottom: 6px;">' +
+              '<span class="badge" style="background:#ede8dd; color:#5c5346; margin-right:4px;">' + t.book + '</span> ' +
+              '<span class="badge" style="background:#ede8dd; color:#5c5346; margin-right:6px;">' + t.category + '</span> ' +
+              t.author + ' · ' + t.dynasty +
+            '</div>' +
+            (preview ? '<div style="font-size:0.83rem; color:#78716c; margin-bottom:8px; line-height:1.4;">“' + preview + '”</div>' : '') +
             '<div class="text-card-actions">' +
               '<button class="btn btn-primary btn-sm" data-action="start-recite" data-tid="' + t.id + '">阶梯背诵</button> ' +
               (p.status !== 'mastered' ? '<button class="btn btn-outline btn-sm" data-action="mark-master" data-tid="' + t.id + '">标记已掌握</button>' : '<button class="btn btn-text btn-sm" data-action="unmark-master" data-tid="' + t.id + '">重置为学习中</button>') +

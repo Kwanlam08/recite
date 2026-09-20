@@ -69,9 +69,17 @@
 
     <!-- 2. 篇目库视图 (Texts) -->
     <section id="view-texts" class="app-view">
-      <div class="card">
-        <div class="card-title">📑 高考必背文言文篇目</div>
-        <div class="card-desc" style="margin-bottom: 0;">每篇均包含逐句白话译文对照与精选 Emoji 记忆锚点。</div>
+      <div class="search-bar-wrap">
+        <input type="text" id="texts-search-input" class="search-input" placeholder="🔍 搜索篇名、作者、册别或名句...">
+      </div>
+      <div class="filter-chips-wrap" id="texts-filter-chips">
+        <button class="filter-chip active" data-book="all">全部 (60)</button>
+        <button class="filter-chip" data-book="必修上">必修上 (16)</button>
+        <button class="filter-chip" data-book="必修下">必修下 (8)</button>
+        <button class="filter-chip" data-book="选必上">选必上 (5)</button>
+        <button class="filter-chip" data-book="选必中">选必中 (7)</button>
+        <button class="filter-chip" data-book="选必下">选必下 (14)</button>
+        <button class="filter-chip" data-book="教材外">教材外 (10)</button>
       </div>
       <div id="texts-list-container"></div>
     </section>
