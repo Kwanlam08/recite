@@ -1,0 +1,71 @@
+/* ==========================================================================
+   legacy.css: 专门针对 iOS 9.3.5 / iPod touch 5 (320x568) 与老旧 WebKit 的垫片样式
+   ========================================================================== */
+
+/* 阻止 320px 超小屏水平溢出 */
+html, body {
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 按钮点击防双击缩放 */
+button, .btn, .bottom-nav-item, .mode-entry-card {
+  touch-action: manipulation;
+}
+
+/* iOS 9 原生表单样式去除 */
+input[type="text"],
+input[type="number"],
+textarea,
+button {
+  -webkit-appearance: none;
+  border-radius: 4px;
+}
+
+/* 极限 320px 宽度适配（iPod touch 5、早期 iPhone SE / 5s） */
+@media screen and (max-width: 340px) {
+  .app-container {
+    padding: 8px 10px;
+  }
+
+  .header-brand {
+    font-size: 0.95rem;
+  }
+
+  .header-brand .brand-badge {
+    display: none; /* 极窄屏幕隐藏副标，保留主标题与番茄钟 */
+  }
+
+  .home-stat-box .num {
+    font-size: 1.2rem;
+  }
+
+  .home-stat-box .label {
+    font-size: 0.72rem;
+  }
+
+  .mode-entry-card .name {
+    font-size: 0.82rem;
+  }
+
+  .mode-entry-card .sub {
+    font-size: 0.68rem;
+  }
+
+  .btn {
+    padding: 6px 10px;
+  }
+
+  .quiz-prompt-text {
+    font-size: 0.98rem;
+  }
+
+  .pomo-timer-display {
+    font-size: 2.6rem;
+  }
+
+  .stat-text-col.title {
+    width: 36%;
+    font-size: 0.82rem;
+  }
+}

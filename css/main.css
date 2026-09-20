@@ -1,0 +1,83 @@
+/* ==========================================================================
+   main.css: 基础样式重置与排版规范
+   支持 iOS 9.3.5 / 老旧 WebKit 引擎
+   ========================================================================== */
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background-color: #f6f7f9;
+  color: #2c3e50;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 72px; /* 底部常驻导航栏间隙 */
+  background-color: #f6f7f9;
+}
+
+/* 链接无下划线 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 输入框与按钮重置 */
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: 16px; /* 必须 >= 16px，防止 iOS 9 Safari 聚焦强制缩放视口 */
+  outline: none;
+  -webkit-appearance: none;
+}
+
+/* 文本工具类 */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-success { color: #16a34a; }
+.text-warning { color: #d97706; }
+.text-danger { color: #dc2626; }
+.text-muted { color: #6b7280; }
+
+/* 容器与页面视图 */
+.app-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 12px 14px;
+}
+
+.app-view {
+  display: none;
+}
+
+/* 标题样式 */
+h1, h2, h3, h4 {
+  color: #1a202c;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+p {
+  margin-bottom: 8px;
+}

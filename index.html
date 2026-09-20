@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <title>高考文言文阶梯背诵</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/ladder.css">
+  <link rel="stylesheet" href="css/pomodoro.css">
+  <link rel="stylesheet" href="css/legacy.css">
+</head>
+<body>
+
+  <!-- 顶部常驻导航栏 -->
+  <header class="app-header">
+    <div class="header-brand">
+      文言文阶梯背诵
+      <span class="brand-badge">高考版</span>
+    </div>
+    <button class="header-pomo-btn" id="header-pomo-btn" title="点击展开番茄钟">
+      <span id="header-pomo-display">🍅 25:00</span>
+    </button>
+  </header>
+
+  <!-- 主内容容器 -->
+  <main class="app-container">
+
+    <!-- 1. 首页视图 (Home) -->
+    <section id="view-home" class="app-view">
+      <!-- 进度简报三宫格 -->
+      <div class="home-stats-row">
+        <div class="home-stat-box" style="width: 31%; margin-right: 3.5%;">
+          <span class="num text-success" id="home-count-mastered">0</span>
+          <span class="label">已掌握篇目</span>
+        </div>
+        <div class="home-stat-box" style="width: 31%; margin-right: 3.5%;">
+          <span class="num text-warning" id="home-count-learning">0</span>
+          <span class="label">正在学习中</span>
+        </div>
+        <div class="home-stat-box" style="width: 31%; margin-right: 0;">
+          <span class="num text-muted" id="home-count-unlearned">0</span>
+          <span class="label">未开始篇目</span>
+        </div>
+      </div>
+
+      <!-- 快速继续背诵卡片 -->
+      <div id="home-continue-card"></div>
+
+      <!-- 阶梯背诵介绍卡片 -->
+      <div class="card">
+        <div class="card-title">🪜 六阶心智背诵法</div>
+        <div class="card-desc" style="line-height: 1.6; margin-bottom: 0;">
+          不打字、不考试、无压力。<br>
+          <strong>L0 原文</strong> ➔ <strong>L1 少量</strong> ➔ <strong>L2 中度</strong> ➔ <strong>L3 大量</strong> ➔ <strong>L4 骨架</strong> ➔ <strong>L5 🌟Emoji</strong><br>
+          通过逐步增加挖空与视觉锚点，将课文真正刻入脑海。
+        </div>
+      </div>
+
+      <!-- 最近学习篇目快速列表 -->
+      <div class="card">
+        <div class="card-title">📚 核心推荐篇目</div>
+        <div id="home-recent-list"></div>
+      </div>
+    </section>
+
+    <!-- 2. 篇目库视图 (Texts) -->
+    <section id="view-texts" class="app-view">
+      <div class="card">
+        <div class="card-title">📑 高考必背文言文篇目</div>
+        <div class="card-desc" style="margin-bottom: 0;">每篇均包含逐句白话译文对照与精选 Emoji 记忆锚点。</div>
+      </div>
+      <div id="texts-list-container"></div>
+    </section>
+
+    <!-- 3. 核心阶梯背诵视图 (Recite) -->
+    <section id="view-recite" class="app-view">
+      <div class="quiz-header-bar" style="margin-bottom: 4px;">
+        <h2 id="recite-text-title" style="margin-bottom: 0;"></h2>
+        <span class="text-muted" id="recite-text-meta" style="font-size: 0.82rem;"></span>
+      </div>
+
+      <!-- 阶梯等级切换条 (0~5) -->
+      <div class="ladder-level-bar">
+        <button class="level-btn active" data-level="0">
+          L0 原文
+          <span class="sub-tag">通读理解</span>
+        </button>
+        <button class="level-btn" data-level="1">
+          L1 少量
+          <span class="sub-tag">核心字词</span>
+        </button>
+        <button class="level-btn" data-level="2">
+          L2 中度
+          <span class="sub-tag">骨干词语</span>
+        </button>
+        <button class="level-btn" data-level="3">
+          L3 大量
+          <span class="sub-tag">深度回忆</span>
+        </button>
+        <button class="level-btn" data-level="4">
+          L4 骨架
+          <span class="sub-tag">首字线索</span>
+        </button>
+        <button class="level-btn" data-level="5">
+          L5 Emoji
+          <span class="sub-tag">🌟脱水背诵</span>
+        </button>
+      </div>
+
+      <!-- 控制工具条 -->
+      <div class="recite-control-bar">
+        <div>
+          <button class="ctrl-btn active" id="recite-btn-toggle-trans">文 译文开启</button>
+          <button class="ctrl-btn" id="recite-btn-peek-answer">👁️ 显示原文</button>
+        </div>
+        <div>
+          <button class="ctrl-btn" id="recite-btn-loop" title="打乱当前挖空位置，防止机械死记">🔁 换一组空</button>
+        </div>
+      </div>
+
+      <!-- 分段切换 Tab -->
+      <div class="paragraph-tabs-wrap" id="recite-para-tabs"></div>
+
+      <!-- 正文渲染主区域 -->
+      <div class="recite-content-card" id="recite-content-card"></div>
+
+      <!-- 底部进阶与完成按钮 -->
+      <div class="recite-bottom-bar" id="recite-bottom-bar"></div>
+    </section>
+
+    <!-- 4. 统计与备份视图 (Stats) -->
+    <section id="view-stats" class="app-view">
+      <div class="card">
+        <div class="card-title">📊 个人背诵进度</div>
+        <div class="home-stats-row" style="margin-bottom: 0;">
+          <div class="home-stat-box" style="width: 48.5%; margin-right: 3%;">
+            <span class="num text-success" id="stats-mastered-total">0</span>
+            <span class="label">已掌握篇目</span>
+          </div>
+          <div class="home-stat-box" style="width: 48.5%; margin-right: 0;">
+            <span class="num text-warning" id="stats-tricky-total">0</span>
+            <span class="label">标记易忘句</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 篇目掌握度明细 -->
+      <div class="card">
+        <div class="card-title">📑 各篇目熟练度</div>
+        <div id="stats-text-breakdown"></div>
+      </div>
+
+      <!-- 数据备份与迁移 -->
+      <div class="card">
+        <div class="card-title">💾 数据备份与跨设备转移</div>
+        <p class="card-desc">背诵数据保存在当前设备本地，换手机或设备前可导出 JSON 备份转移。</p>
+        <div style="margin-bottom: 10px;">
+          <button class="btn btn-outline btn-block" id="btn-export-data">导出背诵数据 (JSON)</button>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <input type="file" id="file-import-input" accept=".json,application/json" style="display: none;">
+          <button class="btn btn-outline btn-block" id="btn-import-data">导入备份恢复</button>
+        </div>
+        <div>
+          <button class="btn btn-text btn-block text-danger" id="btn-reset-data">清空所有背诵进度</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 顶部常驻番茄钟弹窗 -->
+  <div class="modal-overlay" id="pomo-modal">
+    <div class="modal-dialog">
+      <div class="modal-title">🍅 专注背诵番茄钟</div>
+      <div class="pomo-timer-display" id="pomo-modal-time">25:00</div>
+      <div class="pomo-modes-bar">
+        <button class="btn btn-sm btn-outline" id="pomo-mode-work">25分背诵</button>
+        <button class="btn btn-sm btn-outline" id="pomo-mode-break5">5分短休</button>
+        <button class="btn btn-sm btn-outline" id="pomo-mode-break10">10分长休</button>
+      </div>
+      <div class="pomo-controls-bar">
+        <button class="btn btn-primary" id="pomo-toggle-btn">开始</button>
+        <button class="btn btn-outline" id="pomo-reset-btn">重置</button>
+      </div>
+      <button class="btn btn-text btn-block" id="pomo-modal-close" style="margin-top: 8px;">关闭</button>
+    </div>
+  </div>
+
+  <!-- 底部常驻导航栏 -->
+  <nav class="bottom-nav">
+    <button class="bottom-nav-item active" data-view="home">
+      <span class="nav-icon">🏠</span>
+      <span>首页</span>
+    </button>
+    <button class="bottom-nav-item" data-view="texts">
+      <span class="nav-icon">📚</span>
+      <span>篇目</span>
+    </button>
+    <button class="bottom-nav-item" data-view="recite">
+      <span class="nav-icon">🪜</span>
+      <span>背诵</span>
+    </button>
+    <button class="bottom-nav-item" data-view="stats">
+      <span class="nav-icon">📊</span>
+      <span>统计</span>
+    </button>
+  </nav>
+
+  <!-- 核心数据与业务脚本（严格按照依赖顺序与ES5规范加载） -->
+  <script src="data/texts.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ladder.js"></script>
+  <script src="js/pomodoro.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

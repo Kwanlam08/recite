@@ -1,0 +1,409 @@
+/* ==========================================================================
+   layout.css: 顶部栏、底部导航、卡片容器与通用组件
+   严格避免 CSS Grid 与 Flexbox gap，全兼容 iOS 9.3.5 / iPod touch 5
+   ========================================================================== */
+
+/* 顶部常驻导航栏 */
+.app-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 50px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 0 14px;
+}
+
+.header-brand {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.header-brand .brand-badge {
+  font-size: 0.7rem;
+  background-color: #e0e7ff;
+  color: #3730a3;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+/* 顶部番茄钟按钮 */
+.header-pomo-btn {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #be123c;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 底部常驻导航栏 */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 56px;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.bottom-nav-item {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 0.75rem;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.bottom-nav-item .nav-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.bottom-nav-item.active {
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+/* 卡片容器 */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 12px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.highlight-card {
+  border-left: 4px solid #1e3a8a;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.card-desc {
+  font-size: 0.88rem;
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+/* 按钮规范 */
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 8px 14px;
+  min-height: 40px; /* 移动端触控极限高度 */
+  line-height: 1.4;
+  border-radius: 4px;
+  color: #334155;
+  background-color: #f1f5f9;
+}
+
+.btn:active {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background-color: #1e3a8a;
+  color: #ffffff;
+  border-color: #1e3a8a;
+}
+
+.btn-outline {
+  background-color: #ffffff;
+  color: #1e3a8a;
+  border-color: #93c5fd;
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  min-height: 32px;
+  font-size: 0.82rem;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-text {
+  background: transparent;
+  border-color: transparent;
+  color: #64748b;
+  padding: 4px 6px;
+}
+
+/* 徽章 */
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 4px;
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.badge-success { background-color: #dcfce7; color: #15803d; }
+.badge-warning { background-color: #fef3c7; color: #b45309; }
+.badge-danger  { background-color: #fee2e2; color: #b91c1c; }
+.badge-sm { font-size: 0.7rem; padding: 1px 5px; }
+
+/* 进度条 */
+.progress-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background-color: #1e3a8a;
+  border-radius: 3px;
+}
+
+/* 首页数据四宫格（使用 float 或 inline-block 模拟，不依赖 Grid/Flex gap） */
+.home-stats-row {
+  margin-bottom: 12px;
+}
+
+.home-stats-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.home-stat-box {
+  float: left;
+  width: 48.5%;
+  margin-right: 3%;
+  margin-bottom: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.home-stat-box:nth-child(2n) {
+  margin-right: 0;
+}
+
+.home-stat-box .num {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.home-stat-box .label {
+  display: block;
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* 模式选择入口卡片列表 */
+.mode-entry-grid {
+  margin-bottom: 12px;
+}
+
+.mode-entry-grid:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.mode-entry-card {
+  float: left;
+  width: 48.5%;
+  margin-right: 3%;
+  margin-bottom: 10px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 12px 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.mode-entry-card:nth-child(2n) {
+  margin-right: 0;
+}
+
+.mode-entry-card:active {
+  background-color: #f8fafc;
+}
+
+.mode-entry-card .icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.mode-entry-card .name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.mode-entry-card .sub {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* 错题单行预览 */
+.wrong-item-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.wrong-item-row:last-child {
+  border-bottom: none;
+}
+
+.wrong-item-info {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  margin-right: 8px;
+  font-size: 0.88rem;
+}
+
+.wrong-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+
+.wrong-answer-preview {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 18px 0;
+  color: #94a3b8;
+  font-size: 0.88rem;
+}
+
+/* 篇目列表卡片 */
+.text-card {
+  margin-bottom: 12px;
+}
+
+.text-card-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-box-align: baseline;
+  -webkit-align-items: baseline;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.text-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.text-card-meta {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.text-card-stats {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.text-card-actions button {
+  margin-right: 6px;
+}
+
+/* 全文阅读样式 */
+.read-paragraph {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #334155;
+  margin-bottom: 12px;
+  text-indent: 2em;
+}

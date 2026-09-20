@@ -1,0 +1,61 @@
+/* ==========================================================================
+   pomodoro.css: 番茄钟弹窗与倒计时微件样式
+   严格兼容 iOS 9.3.5 / iPod touch 5
+   ========================================================================== */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  padding: 20px 14px;
+}
+
+.modal-dialog {
+  background-color: #ffffff;
+  border-radius: 8px;
+  max-width: 360px;
+  margin: 60px auto 0;
+  padding: 20px 16px;
+  text-align: center;
+  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 14px;
+}
+
+.pomo-timer-display {
+  font-size: 3.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial", sans-serif;
+  font-weight: 700;
+  color: #be123c;
+  line-height: 1;
+  margin: 12px 0 20px;
+  letter-spacing: 2px;
+}
+
+.pomo-modes-bar {
+  margin-bottom: 16px;
+}
+
+.pomo-modes-bar button {
+  margin: 0 3px 6px;
+}
+
+.pomo-controls-bar {
+  margin-bottom: 16px;
+}
+
+.pomo-controls-bar button {
+  margin: 0 4px;
+  min-width: 80px;
+}
