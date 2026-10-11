@@ -201,46 +201,25 @@
   padding-left: 2px;
 }
 
-/* Emoji 记忆锚点行（意象提示流） */
-.line-emoji-bar {
-  margin-top: 7px;
-  padding: 6px 12px;
-  background-color: #f3f6f8;
-  border-left: 3px solid #6366f1;
-  border-radius: 4px;
-  font-size: 1.15rem;
-  line-height: 1.4;
-  letter-spacing: 3px;
-}
-
-.line-emoji-label {
-  font-size: 0.7rem;
-  color: #6366f1;
-  font-weight: 700;
-  margin-right: 6px;
-  display: block;
-  margin-bottom: 2px;
-  letter-spacing: 0.5px;
-}
-
-/* 标记易忘词按钮 */
+/* 标记难点词按钮 */
 .line-star-btn {
-  font-size: 0.74rem;
-  color: #a8a29e;
-  background: transparent;
-  border: 1px solid #e7e3d8;
-  border-radius: 12px;
-  padding: 1px 6px;
+  font-size: 0.72rem;
+  color: #8c8270;
+  background: #fdfcfa;
+  border: 1px solid #dcd6c8;
+  border-radius: 4px;
+  padding: 2px 7px;
   cursor: pointer;
-  margin-left: 6px;
+  margin-left: 8px;
   vertical-align: middle;
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  line-height: 1.2;
 }
 
 .line-star-btn.active {
   color: #b45309;
   background-color: #fef3c7;
-  border-color: #fde68a;
+  border-color: #f59e0b;
   font-weight: 600;
 }
 
@@ -263,9 +242,5 @@
   .line-orig-text {
     font-size: 1.1rem;
     line-height: 1.95;
-  }
-  .line-emoji-bar {
-    font-size: 1rem;
-    letter-spacing: 1.5px;
   }
 }

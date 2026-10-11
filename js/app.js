@@ -20,7 +20,6 @@
       var self = this;
 
       if (window.SafeStorage) window.SafeStorage.init();
-      if (window.Pomodoro) window.Pomodoro.init();
 
       if (window.RECITATION_TEXTS && window.RECITATION_TEXTS.length > 0) {
         this.activeTextId = window.RECITATION_TEXTS[0].id;
@@ -67,7 +66,21 @@
       if (viewName === 'home') {
         this.renderHome();
       } else if (viewName === 'texts') {
-        this.renderTexts(params ? params.category : null);
+        if (params && params.category) {
+          this.selectedBookFilter = params.category;
+          var chipContainer = document.getElementById('texts-filter-chips');
+          if (chipContainer) {
+            var chips = chipContainer.querySelectorAll('.filter-chip');
+            for (var c = 0; c < chips.length; c++) {
+              if (chips[c].getAttribute('data-book') === params.category) {
+                chips[c].className = 'filter-chip active';
+              } else {
+                chips[c].className = 'filter-chip';
+              }
+            }
+          }
+        }
+        this.renderTexts();
       } else if (viewName === 'recite') {
         if (params && params.textId) {
           this.activeTextId = params.textId;
@@ -96,56 +109,7 @@
     },
 
     bindGlobalEvents: function() {
-      // 顶部番茄钟交互
-      var pomoBtn = document.getElementById('header-pomo-btn');
-      var pomoModal = document.getElementById('pomo-modal');
-      var pomoClose = document.getElementById('pomo-modal-close');
-
-      if (pomoBtn && pomoModal) {
-        pomoBtn.onclick = function() {
-          pomoModal.style.display = 'block';
-        };
-      }
-      if (pomoClose && pomoModal) {
-        pomoClose.onclick = function() {
-          pomoModal.style.display = 'none';
-        };
-      }
-
-      var pomoToggle = document.getElementById('pomo-toggle-btn');
-      if (pomoToggle) {
-        pomoToggle.onclick = function() {
-          if (window.Pomodoro.isRunning) {
-            window.Pomodoro.pause();
-          } else {
-            window.Pomodoro.start();
-          }
-        };
-      }
-      var pomoReset = document.getElementById('pomo-reset-btn');
-      if (pomoReset) {
-        pomoReset.onclick = function() {
-          window.Pomodoro.reset();
-        };
-      }
-      var pomoWork25 = document.getElementById('pomo-mode-work');
-      if (pomoWork25) {
-        pomoWork25.onclick = function() {
-          window.Pomodoro.reset('work');
-        };
-      }
-      var pomoBreak5 = document.getElementById('pomo-mode-break5');
-      if (pomoBreak5) {
-        pomoBreak5.onclick = function() {
-          window.Pomodoro.reset('shortBreak');
-        };
-      }
-      var pomoBreak10 = document.getElementById('pomo-mode-break10');
-      if (pomoBreak10) {
-        pomoBreak10.onclick = function() {
-          window.Pomodoro.reset('longBreak');
-        };
-      }
+      // 页面级通用交互绑定
     },
 
     /* ====================================================================
@@ -191,12 +155,12 @@
       var recentContainer = document.getElementById('home-continue-card');
       if (recentContainer && recentText) {
         var rProg = window.SafeStorage.getTextProgress(recentText.id);
-        var levelNames = ['Level 0 完整原文', 'Level 1 少量挖空', 'Level 2 中度挖空', 'Level 3 大量挖空', 'Level 4 骨架背诵', 'Level 5 🌟Emoji锚点'];
-        var currentLevelName = levelNames[rProg.level || 0] || 'Level 0';
+        var levelNames = ['L0 完整原文', 'L1 少量挖空', 'L2 中度挖空', 'L3 大量挖空', 'L4 骨架背诵', 'L5 极限挑战'];
+        var currentLevelName = levelNames[rProg.level || 0] || 'L0';
 
         recentContainer.innerHTML =
           '<div class="card highlight-card">' +
-            '<div class="card-title">📖 继续阶梯背诵</div>' +
+            '<div class="card-title">继续阶梯背诵</div>' +
             '<div style="font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-bottom: 4px;">《' + recentText.title + '》</div>' +
             '<div class="card-desc">' + recentText.author + ' · ' + recentText.dynasty + ' (' + currentLevelName + ')</div>' +
             '<button class="btn btn-primary btn-block" id="btn-home-continue">进入阶梯背诵</button>' +
@@ -310,9 +274,8 @@
       if (filtered.length === 0) {
         container.innerHTML =
           '<div class="card" style="text-align: center; padding: 32px 14px; color: #8c8273;">' +
-            '<div style="font-size: 2rem; margin-bottom: 8px;">📜</div>' +
-            '<div style="font-weight: 600; color: #5c5346;">未找到匹配篇目</div>' +
-            '<div style="font-size: 0.82rem; margin-top: 4px; color: #a39b8e;">可尝试更换搜索词或切换上方册别分类</div>' +
+            '<div style="font-weight: 600; color: #5c5346; font-size: 1.05rem;">未找到匹配篇目</div>' +
+            '<div style="font-size: 0.82rem; margin-top: 6px; color: #a39b8e;">可尝试更换搜索词或切换上方册别分类</div>' +
           '</div>';
         return;
       }
@@ -322,7 +285,7 @@
       for (var k = 0; k < filtered.length; k++) {
         var t = filtered[k];
         var p = window.SafeStorage.getTextProgress(t.id);
-        var levelNames = ['L0 原文', 'L1 少量', 'L2 中度', 'L3 大量', 'L4 骨架', 'L5 Emoji'];
+        var levelNames = ['L0 原文', 'L1 少量', 'L2 中度', 'L3 大量', 'L4 骨架', 'L5 极限'];
         var lName = levelNames[p.level || 0] || 'L0';
 
         var badgeClass = p.status === 'mastered' ? 'badge-success' : (p.status === 'learning' ? 'badge-warning' : '');
@@ -497,10 +460,10 @@
       if (transBtn) {
         if (this.showTranslation) {
           transBtn.className = 'ctrl-btn active';
-          transBtn.innerHTML = '文 译文开启';
+          transBtn.innerHTML = '译文：开启';
         } else {
           transBtn.className = 'ctrl-btn';
-          transBtn.innerHTML = '文 译文隐藏';
+          transBtn.innerHTML = '译文：隐藏';
         }
         transBtn.onclick = function() {
           self.showTranslation = !self.showTranslation;
@@ -518,10 +481,10 @@
       if (peekBtn) {
         if (this.showAnswer) {
           peekBtn.className = 'ctrl-btn active';
-          peekBtn.innerHTML = '👁️ 恢复挖空';
+          peekBtn.innerHTML = '恢复挖空';
         } else {
           peekBtn.className = 'ctrl-btn';
-          peekBtn.innerHTML = '👁️ 显示原文';
+          peekBtn.innerHTML = '显示原文';
         }
         peekBtn.onclick = function() {
           self.showAnswer = !self.showAnswer;
@@ -532,6 +495,7 @@
       // 循环复练按钮（微随机打乱重置）
       var loopBtn = document.getElementById('recite-btn-loop');
       if (loopBtn) {
+        loopBtn.innerHTML = '随机换空';
         loopBtn.onclick = function() {
           self.randomSeed++;
           self.showAnswer = false;
@@ -568,23 +532,14 @@
             '<div class="recite-line-item">' +
               '<div class="line-orig-text">' +
                 lineHtml +
-                '<button class="line-star-btn ' + (isStarred ? 'active' : '') + '" data-orig="' + lineObj.orig + '" title="标记难点易忘句">' +
-                  (isStarred ? '⭐ 易忘' : '☆ 标记') +
+                '<button class="line-star-btn ' + (isStarred ? 'active' : '') + '" data-orig="' + lineObj.orig + '" title="标记重点难句">' +
+                  (isStarred ? '已标难点' : '标记难点') +
                 '</button>' +
               '</div>';
 
           // 译文对照行
           if (this.showTranslation && lineObj.trans) {
             html += '<div class="line-trans-text">' + lineObj.trans + '</div>';
-          }
-
-          // Level 5 或 Emoji 提示行
-          if (this.activeLevel === 5 && lineObj.emoji) {
-            html +=
-              '<div class="line-emoji-bar">' +
-                '<span class="line-emoji-label">视觉记忆锚点</span>' +
-                lineObj.emoji +
-              '</div>';
           }
 
           html += '</div>';
@@ -594,7 +549,7 @@
 
       container.innerHTML = html;
 
-      // 绑定标记易忘按钮
+      // 绑定标记难点按钮
       var starBtns = container.querySelectorAll('.line-star-btn');
       for (var s = 0; s < starBtns.length; s++) {
         (function(btn) {
@@ -603,10 +558,10 @@
             var starred = window.SafeStorage.toggleTrickyWord(textObj.id, origStr);
             if (starred) {
               btn.className = 'line-star-btn active';
-              btn.innerHTML = '⭐ 易忘';
+              btn.innerHTML = '已标难点';
             } else {
               btn.className = 'line-star-btn';
-              btn.innerHTML = '☆ 标记';
+              btn.innerHTML = '标记难点';
             }
           };
         })(starBtns[s]);
@@ -619,12 +574,12 @@
       if (!container) return;
 
       var nextLevel = this.activeLevel + 1;
-      var levelNames = ['Level 0 原文', 'Level 1 少量挖空', 'Level 2 中度挖空', 'Level 3 大量挖空', 'Level 4 骨架背诵', 'Level 5 🌟Emoji脱水背诵'];
+      var levelNames = ['L0 原文', 'L1 少量挖空', 'L2 中度挖空', 'L3 大量挖空', 'L4 骨架背诵', 'L5 极限挑战'];
 
       if (this.activeLevel < 5) {
         container.innerHTML =
           '<button class="btn btn-primary btn-block" id="btn-advance-level">' +
-            '已熟悉，提升难度 ➔ 进入 ' + levelNames[nextLevel] +
+            '熟练进阶 · 进入 ' + levelNames[nextLevel] +
           '</button>';
         document.getElementById('btn-advance-level').onclick = function() {
           self.activeLevel = nextLevel;
@@ -636,10 +591,10 @@
       } else {
         container.innerHTML =
           '<button class="btn btn-primary btn-block" id="btn-master-text" style="background-color: #15803d; border-color: #15803d;">' +
-            '🎉 恭喜达成！标记已掌握《' + (this.getTextById(this.activeTextId).title) + '》' +
+            '背诵通关 · 标记已掌握《' + (this.getTextById(this.activeTextId).title) + '》' +
           '</button>' +
           '<button class="btn btn-outline btn-block" id="btn-restart-text" style="margin-top: 8px;">' +
-            '🔁 重置回 Level 0 从头温故' +
+            '重置回 L0 从头温故' +
           '</button>';
 
         document.getElementById('btn-master-text').onclick = function() {

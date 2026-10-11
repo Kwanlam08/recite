@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/ladder.css">
-  <link rel="stylesheet" href="css/pomodoro.css">
   <link rel="stylesheet" href="css/legacy.css">
 </head>
 <body>
@@ -18,12 +17,12 @@
   <!-- 顶部常驻导航栏 -->
   <header class="app-header">
     <div class="header-brand">
-      文言文阶梯背诵
-      <span class="brand-badge">高考版</span>
+      高考文言文背诵
+      <span class="brand-badge">六十篇全量</span>
     </div>
-    <button class="header-pomo-btn" id="header-pomo-btn" title="点击展开番茄钟">
-      <span id="header-pomo-display">🍅 25:00</span>
-    </button>
+    <div class="header-right-tag">
+      <span>阶梯研读</span>
+    </div>
   </header>
 
   <!-- 主内容容器 -->
@@ -52,17 +51,17 @@
 
       <!-- 阶梯背诵介绍卡片 -->
       <div class="card">
-        <div class="card-title">🪜 六阶心智背诵法</div>
+        <div class="card-title">六阶心智背诵法</div>
         <div class="card-desc" style="line-height: 1.6; margin-bottom: 0;">
           不打字、不考试、无压力。<br>
-          <strong>L0 原文</strong> ➔ <strong>L1 少量</strong> ➔ <strong>L2 中度</strong> ➔ <strong>L3 大量</strong> ➔ <strong>L4 骨架</strong> ➔ <strong>L5 🌟Emoji</strong><br>
-          通过逐步增加挖空与视觉锚点，将课文真正刻入脑海。
+          <strong>L0 原文</strong> → <strong>L1 少量</strong> → <strong>L2 中度</strong> → <strong>L3 大量</strong> → <strong>L4 骨架</strong> → <strong>L5 极限</strong><br>
+          通过逐步增加挖空、减少文字提示，让课文在脑中自然流淌重构。
         </div>
       </div>
 
       <!-- 最近学习篇目快速列表 -->
       <div class="card">
-        <div class="card-title">📚 核心推荐篇目</div>
+        <div class="card-title">核心篇目推荐</div>
         <div id="home-recent-list"></div>
       </div>
     </section>
@@ -70,7 +69,7 @@
     <!-- 2. 篇目库视图 (Texts) -->
     <section id="view-texts" class="app-view">
       <div class="search-bar-wrap">
-        <input type="text" id="texts-search-input" class="search-input" placeholder="🔍 搜索篇名、作者、册别或名句...">
+        <input type="text" id="texts-search-input" class="search-input" placeholder="搜索篇名、作者、册别或名句...">
       </div>
       <div class="filter-chips-wrap" id="texts-filter-chips">
         <button class="filter-chip active" data-book="all">全部 (60)</button>
@@ -114,19 +113,19 @@
           <span class="sub-tag">首字线索</span>
         </button>
         <button class="level-btn" data-level="5">
-          L5 Emoji
-          <span class="sub-tag">🌟脱水背诵</span>
+          L5 极限
+          <span class="sub-tag">全空挑战</span>
         </button>
       </div>
 
       <!-- 控制工具条 -->
       <div class="recite-control-bar">
         <div>
-          <button class="ctrl-btn active" id="recite-btn-toggle-trans">文 译文开启</button>
-          <button class="ctrl-btn" id="recite-btn-peek-answer">👁️ 显示原文</button>
+          <button class="ctrl-btn active" id="recite-btn-toggle-trans">译文：开启</button>
+          <button class="ctrl-btn" id="recite-btn-peek-answer">显示原文</button>
         </div>
         <div>
-          <button class="ctrl-btn" id="recite-btn-loop" title="打乱当前挖空位置，防止机械死记">🔁 换一组空</button>
+          <button class="ctrl-btn" id="recite-btn-loop" title="打乱当前挖空位置，防止机械死记">随机换空</button>
         </div>
       </div>
 
@@ -143,7 +142,7 @@
     <!-- 4. 统计与备份视图 (Stats) -->
     <section id="view-stats" class="app-view">
       <div class="card">
-        <div class="card-title">📊 个人背诵进度</div>
+        <div class="card-title">个人背诵进度</div>
         <div class="home-stats-row" style="margin-bottom: 0;">
           <div class="home-stat-box" style="width: 48.5%; margin-right: 3%;">
             <span class="num text-success" id="stats-mastered-total">0</span>
@@ -151,20 +150,20 @@
           </div>
           <div class="home-stat-box" style="width: 48.5%; margin-right: 0;">
             <span class="num text-warning" id="stats-tricky-total">0</span>
-            <span class="label">标记易忘句</span>
+            <span class="label">标记难点句</span>
           </div>
         </div>
       </div>
 
       <!-- 篇目掌握度明细 -->
       <div class="card">
-        <div class="card-title">📑 各篇目熟练度</div>
+        <div class="card-title">篇目掌握明细</div>
         <div id="stats-text-breakdown"></div>
       </div>
 
       <!-- 数据备份与迁移 -->
       <div class="card">
-        <div class="card-title">💾 数据备份与跨设备转移</div>
+        <div class="card-title">数据备份与恢复</div>
         <p class="card-desc">背诵数据保存在当前设备本地，换手机或设备前可导出 JSON 备份转移。</p>
         <div style="margin-bottom: 10px;">
           <button class="btn btn-outline btn-block" id="btn-export-data">导出背诵数据 (JSON)</button>
@@ -181,41 +180,23 @@
 
   </main>
 
-  <!-- 顶部常驻番茄钟弹窗 -->
-  <div class="modal-overlay" id="pomo-modal">
-    <div class="modal-dialog">
-      <div class="modal-title">🍅 专注背诵番茄钟</div>
-      <div class="pomo-timer-display" id="pomo-modal-time">25:00</div>
-      <div class="pomo-modes-bar">
-        <button class="btn btn-sm btn-outline" id="pomo-mode-work">25分背诵</button>
-        <button class="btn btn-sm btn-outline" id="pomo-mode-break5">5分短休</button>
-        <button class="btn btn-sm btn-outline" id="pomo-mode-break10">10分长休</button>
-      </div>
-      <div class="pomo-controls-bar">
-        <button class="btn btn-primary" id="pomo-toggle-btn">开始</button>
-        <button class="btn btn-outline" id="pomo-reset-btn">重置</button>
-      </div>
-      <button class="btn btn-text btn-block" id="pomo-modal-close" style="margin-top: 8px;">关闭</button>
-    </div>
-  </div>
-
   <!-- 底部常驻导航栏 -->
   <nav class="bottom-nav">
     <button class="bottom-nav-item active" data-view="home">
-      <span class="nav-icon">🏠</span>
-      <span>首页</span>
+      <span class="nav-char">首</span>
+      <span class="nav-label">首页</span>
     </button>
     <button class="bottom-nav-item" data-view="texts">
-      <span class="nav-icon">📚</span>
-      <span>篇目</span>
+      <span class="nav-char">篇</span>
+      <span class="nav-label">篇目</span>
     </button>
     <button class="bottom-nav-item" data-view="recite">
-      <span class="nav-icon">🪜</span>
-      <span>背诵</span>
+      <span class="nav-char">背</span>
+      <span class="nav-label">背诵</span>
     </button>
     <button class="bottom-nav-item" data-view="stats">
-      <span class="nav-icon">📊</span>
-      <span>统计</span>
+      <span class="nav-char">统</span>
+      <span class="nav-label">统计</span>
     </button>
   </nav>
 
@@ -223,7 +204,6 @@
   <script src="data/texts.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/ladder.js"></script>
-  <script src="js/pomodoro.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
